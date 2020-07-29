@@ -1,0 +1,29 @@
+\chapter{Related Work}
+\label{ch:related_Work}
+
+
+Consensus problem is a well-researched problem and still is an active problem in the distributed systems field more so after the introduction of blockchain technology, we are going to look at some of the relevant previous works related to our problem, i.e., Asynchronous Byzantine Fault-tolerant consensus.
+
+\section{Asynchronous Byzantine Fault Tolerant Consensus}
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+        \textbf{Protocol} &\textbf{Best} & \textbf{Worst}\\\hline    
+         KS02 \cite{kursawe2005optimistic}&  $O(N^{2})$&$O(N^{3})$\\
+         RC05 \cite{ramasamy2005parsimonious}&  $O(N)$&$O(N^{3})$\\
+         HoneyBadgerBFT \cite{miller2016honey}&  $O(N)$ & $O(N)$\\
+          \hline
+    \end{tabular}
+    \caption{Asymptotic communication complexity for atomic broadcast protocols\cite{miller2016honey}}
+    \label{tab:complexity}
+\end{table}
+It all started with the introduction of ``Optimistic Asynchronous Atomic Broadcast'' by Klaus Kursawe and et al. \cite{kursawe2005optimistic}, the work guaranteed to have both \textit{liveness} and \textit{safety} without making any assumption about the network timings.  The protocol runs two-mode, mainly in ``optimistic mode'', and very rarely, it switches to a less efficient ``pessimistic mode''. The optimistic mode works similarly to how synchronous BFT protocol works. If the leader or the network misbehaves, then protocol switches to the pessimistic mode where they used a randomized Byzantine agreement to finish the work left for the epoch and elect a new leader. Pessimistic mode commits at least one block so that the Denial of service(DoS) attack is not possible.
+
+Then, ``Parsimonious ABFT atomic broadcast'' by HariGovind V. Ramasamy et al. .\cite{ramasamy2005parsimonious} is on the similar lines as the previous work mention but they used a better approach of broadcasting the load from leader to all the other nodes which increase the efficiency of the optimistic case. The pessimistic mode is the same as mentioned in the above work.
+
+HoneyBadgerBFT is most closely related to ``SINTRA'' by Cachin et al. .\cite{cachin2002secure}, In this work, they introduced a collection of protocols, providing secure broadcast and secure agreement among a group of nodes connected via an unreliable network, such as the Internet like Atomic Broadcast, Binary Agreement. These protocols formed the basis of HoneyBadgerBFT.
+
+``BEAT'' by Duan et al. \cite{duan2018beat}\cite{morning_paper_beat} is another work in this work author aims to be flexible by making protocols optimized for various parameters like scalability, bandwidth, throughput, or latency and provide different protocol targeting different scenarios like protocol for full state-machine replication (SMR) or protocol for the append-only ledger.
+
+

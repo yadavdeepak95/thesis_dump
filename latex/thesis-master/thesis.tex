@@ -1,0 +1,126 @@
+\documentclass[12pts,twoside,a4paper]{report}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{epstopdf}
+\usepackage{pdfpages}
+\usepackage{url} 
+% \usepackage{algorithm2e}
+\usepackage{custom}
+\usepackage{float}
+\usepackage{pdfpages}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{balance}
+\usepackage{grffile}
+\usepackage{lipsum}
+
+
+
+%\usepackage{geometry}
+\usepackage{marginnote}
+\usepackage[section]{placeins}
+\usepackage{tabularx}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+%\onehalfspacing
+\doublespacing
+
+
+%\graphicspath{{images/}}
+\usepackage[a4paper, top=25mm, bottom=25mm, right=25mm, left=35mm]{geometry}
+\usepackage{fancyhdr}
+\usepackage[nottoc]{tocbibind}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\rightmark}
+\fancyfoot[c]{\thepage}
+
+% \LinesNumbered
+\newcommand{\vect}[2]{\ensuremath{\left[ \begin{smallmatrix}#1\\#2\end{smallmatrix} \right]}}
+
+\newcommand{\authorname}{Deepak Yadav}
+\newcommand{\supname}{Prof. Sandeep Shukla}
+\newcommand{\authorrollno}{18111015}
+\newcommand{\degreename}{Master of Technology}
+\newcommand{\deptname}{Department of Computer Science and Engineering}
+\newcommand{\thesistitle}{HoneyBadgerBFT as an ordering service in Hyperledger Fabric}
+\newcommand{\datesubmission}{JUN 2020}
+\newcommand{\instname}{Indian Institute of Technology Kanpur}
+\newcommand{\instaddr}{Kanpur 208016}
+
+
+\title{\thesistitle}
+\author{\authorname}
+\date{\today}
+
+%\showthe\parindent
+%\showthe\parskip
+\def \defparskip {0.0pt plus 1.0pt}
+\def \defparindent {15pt}
+%\show\defparindent 
+%\show\defparskip
+
+\setcounter{tocdepth}{1}
+%\renewcommand{\floatpagefraction}{.95}%
+\renewcommand{\topfraction}{.95}%
+\renewcommand{\textfraction}{.05}%
+
+\begin{document} 
+\pagenumbering{roman}
+%%%%%%%%%%%%%%%%%%%%%%555
+	\include{chapters/titlepage}
+\clearpage
+		Page intentionally left blank
+ 	\includepdf{Deepak_yadav_18111015_certi}
+ 
+\clearpage
+		Page intentionally left blank
+	\include{chapters/declaration}
+\clearpage
+		Page intentionally left blank
+	\afterpage{\clearpage}
+ 	\include{chapters/abstract}
+ 		
+	\clearpage
+		Page intentionally left blank
+
+ 	\include{chapters/acknowledgements}	
+ 	\clearpage
+ 		Page intentionally left blank
+
+
+	\tableofcontents
+	\listoffigures
+	\listoftables
+
+	
+	%%%%%%%%%%%%%%%%%%%%%%%
+	\clearpage
+		Page intentionally left blank
+	\clearpage
+	\pagenumbering{arabic}
+	\include{chapters/intro}
+ 	\include{chapters/hbbft}
+    \include{chapters/fabric}
+    \include{chapters/impl}
+    \include{chapters/hbbftinfabric}
+ 	\include{chapters/result}
+ 	\include{chapters/relatedwork}
+ 	\include{chapters/related_work}
+ 	\include{chapters/conclusion}
+	\singlespacing
+	\bibliographystyle{plain}
+	\bibliography{chapters/ref}
+\end{document}
+

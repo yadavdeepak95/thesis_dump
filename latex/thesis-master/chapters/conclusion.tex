@@ -1,0 +1,6 @@
+\chapter{Conclusion}
+\label{ch:conclusion}
+We present HoneyBadgerBFT, an asynchronous Byzantine fault-tolerant consensus protocol that can work in any network conditions as an consensus option in  Hyperledger Fabric v1.4. Now, Hyperladger Fabric can be used even if we  have malicious nodes in the network or when we cannot provide any network guarantees. The protocol can tolerate up to one-third of malicious nodes in the network. Implementing HoneyBadgerBFT as ordering service in Hyperladger Fabric required a thorough understanding of Fabric's source code  and its design principles. Based on our benchmark and analysis shown in Chapter \ref{ch:result}, we conclude that HoneyBadgerBFT can be a good choice as ordering service in Fabric as it provides throughput comparable to Raft and can stand both malicious behaviour from nodes and network attacks.
+
+\section{Scope for further work}
+Anyone who wants to continue this line of work can try to come up with the new asynchronous Byzantine fault-tolerant consensus protocol and plug it in Fabric or try to convert others asynchronous protocol available like BEAT\cite{duan2018beat} and plug them in Fabric. Also, we can replace the current protocol modules with new protocols or improve the efficiency of the currently implemented, which can improve the performance of the HoneyBadgerBFT. 

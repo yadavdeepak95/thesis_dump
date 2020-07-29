@@ -1,0 +1,54 @@
+\chapter{Introduction}
+\label{ch:int}
+
+
+\section{Blochchain}
+Since the introduction of the Bitcoin by Satoshi Nakamoto\cite{nakamoto2008bitcoin}, both industry and academia are interested in blockchain technology.  Blockchain  \cite{zikratov2017ensuring} promises data integrity, immutability, and decentralization in distributed systems. Blockchain is nothing but an append-only ledger, which is temper-evident and records transactions bundled in the form of blocks\cite{ibm_developer}. All the validated and confirmed transactions are bundled into \textit{blocks}, blocks are then linked (via hash) in the ledger, if any of the block or transaction in any block is mutated, hash links will not match and we will know that ledger is tempered. The ledger is shared among all the peer in a peer-to-peer network either public or private, and peers do not trust each other. \cite{intro_hyperledger}\cite{haber1997secure}\cite{merkle1980protocols}\cite{massias1999design}
+
+In simple words, blockchain is a network of peers who do not have trust on each other
+but maintain a ledger on which everyone agrees in a distributed scenario. So, peers
+who do not trust each other and with no central authority in place, we need a distributed agreement 
+(aka distributed consensus) protocol to make all peers agree on the same ledger.
+
+% As a result, the distributed network of peers that constitute the blockchain needs a
+% blockchain agreement protocol to agree on the set of new transactions, validate them,
+% group them into blocks and build a hash-chain of blocks or ledger. The protocol by which this is achieved in the blockchain is known as consensus.
+
+ Blockchain uses consensus protocol\cite{cachin2017blockchain} to reach an agreement in the network about the order and set of transactions to be included in the current block. There are many consensus protocols for different scenarios, most popular ones are Proof-of-work (PoW), Raft\cite{10.5555/2643634.2643666}, and Pbft\cite{castro1999practical}.
+\section{HoneyBadgerBFT}
+There are various types of Byzantine fault-tolerant(BFT)\cite{lamport2019Byzantine} consensus protocols. Still, all these Byzantine fault-tolerant protocols such as PBFT rely critically on network timing assumptions and guarantee liveness\cite{chand2020s} when network behaves as expected. We argue that these protocols are ill-suited when we want to deploy blockchain over the network where users cannot provide network guarantees, e.g., wide-area network.  To address this limitation, In 2016, Andrew Miller et al. introduced "The HoneyBadger of BFT Protocols" \cite{miller2016honey}(HoneyBadgerBFT), which is an asynchronous Byzantine fault-tolerant protocol that simply does not care about the underlying network. HoneyBadgerBFT has no timing assumption and provides best in class resilience against Byzantine or malicious nodes, i.e., can work even if up to one-third nodes are Byzantine faulty.
+ 
+This protocol scales well, and its throughput closely replicates the network's performance. So if blockchain uses HoneyBadgerBFT as consensus protocol, it is more resilient and robust against network attacks and opens possibilities for the use of blockchain in new scenarios like over wide-area networks, such as the Internet or tor, etc. which are not currently possible.
+
+The main idea behind is to use asynchronous binary agreement and reliable broadcast protocol and efficiently combine them to form an asynchronous consensus protocol with optimal asymptotic efficiency.
+
+
+\section{Hyperledger Fabric}
+Blockchains can be classified as \textit{permissioned} or \textit{permissionless}. In a permissionless blockchain, any node can be part of the network without any verification of identity. These blockchains are open for all and provide equal rights to all. Bitcoin and  Ethereum are examples of \textit{open/ permissionless} blockchains. On the other hand, you need permission to participate in \textit{permissioned} blockchain, All nodes are identifiable and require rights to read or write data in the blockchain.
+Fabric\cite{androulaki2018hyperledger} is a permissioned blockchain designed for enterprises; therefore, it has a modular design to support multiple use cases of industry. It is the first blockchain to allow plug-able consensus protocol in ordering service, So users can choose and plug consensus according to their threat model and application. It is first blockchain to allow developers to write smart contracts/ applications in general-purpose programming languages like Go, Java, etc., which makes developing application fast, easy and cost-efficient as no special training is required for the domain-specific languages to write smart contracts. Fabric also allows plug-able identity management system, so that enterprises can plug and use/reuse industry-standard identity management systems. Fabric also introduces a new blockchain paradigm and changes the way blockchains handle the current problems in blockchains, such as performance attacks, non-determinism, and resource exhaustion.\cite{use_fabric}
+%  Blockchains can be categorized into two broad class: permissionless and permissioned
+% blockchain systems. In permissionless blockchains, any node can participate in the system and there is no verified identity required for it. Such blockchains which
+% allow equal and open rights to all of its participants are called permissionless or
+% open or public blockchains. Common examples of such blockchains are Bitcoin and
+% Ethereum networks. On the other hand, in permissioned blockchains, nodes in the
+% system are identifiable to each other and need special permission to read, access, and
+% write data into the blockchain. Hyperledger Fabric is an example of permissioned
+% blockchain, operated by the Linux Foundation for running distributed applications.
+
+% Hyperledger Fabric\cite{androulaki2018hyperledger} is an enterprise-grade, distributed ledger platform that offers modularity and versatility for a broad set of industry use cases. The modular architecture for Hyperledger Fabric accommodates the
+%   diversity of enterprise use cases through plug and play components, such as consensus, privacy and
+%   membership services.
+
+%     Hyperledger Fabric is a platform for building distributed ledger solutions, 
+%     with a modular architecture that delivers high degrees of confidentiality, flexibility, resiliency, and scalability.
+%      This enables solutions developed with Fabric to be adapted for any industry. Fabric allows components, such as consensus and membership services, to be plug-and-play.
+     
+%TODO byzantine general bib add
+\subsection{Consensus Protocol in Fabric}
+Fabric supports three consensus protocols, \textit{Solo}, \textit{Kafka}, and \textit{Raft}. \textit{Solo} is a consensus protocol with a single node, Which acts as a solo authority, and no actual consensus is required. \textit{Solo} does not provide any fault tolerance. It is meant to be used only in the development or testing phase of blockchain and not in the production phase. \textit{Kafka} based ordering service is a crash fault-tolerant, but it is now being deprecated because of its difficulty to setup and use. \textit{Raft} is also a crash fault-tolerant consensus protocol. This means we have multiple order nodes running, and even if few nodes die due to any failures such as hardware or software, ordering service will still be able to provide the service.
+But the problem with all the current options is that none of them is Byzantine fault-tolerant. Furthermore, Blockchain is used when stakeholders involved do not trust each other; therefore, there is a high probability that some nodes in the network can be malicious. And  Fabric is vulnerable to malicious behaviour, limiting its use case in applications. 
+\section{Our Contribution}
+Hyperledger Fabric still lacks a Byzantine fault-tolerant consensus protocol as ordering service, limiting its use in applications where the nodes can be malicious. This thesis aims to implement HoneyBadgerBFT protocol and plug it in Fabric v1.4 as an ordering service to provide a more robust consensus protocol so that Fabric can be used in the presence of malicious nodes and under any type of network conditions as HoneyBadgerBFT is an asynchronous BFT protocol.
+\section{Organization of thesis}
+In Chapter \ref{ch:hbbft} we  introduce the HoneyBadgerBFT protocol. In Chapter \ref{ch:fabric}, we give a brief overview of Hyperledger Fabric, its architecture, and its network components and setup. In Chapter \ref{ch:impl}, we discuss the HoneyBadger protocol's design in-depth and how we implemented a stand-alone version of it. Then we move on to explain how we plugged this stand-alone version of HoneyBadgerBFT in Fabric in Chapter \ref{ch:hbbftinfabric}. In Chapter \ref{ch:result}, we show the results of our tests and experiments and their analysis. In Chapter \ref{ch:related_Work}, we discuss relevant previous works related to HoneyBadgerBFT, In Chapter \ref{ch:conclusion} we end our thesis with a brief conclusion and some scope for future work.
+

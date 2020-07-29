@@ -1,0 +1,45 @@
+\chapter{HoneyBadgerBFT in Hyperledger Fabric}
+\label{ch:hbbftinfabric}
+In this chapter, we will discuss how we plugged HoneyBadgerBFT as a consensus option in Hyperledger Fabric v1.4. Currently, Fabric support Solo Kafka(deprecated), and Raft. Solo is a single node order meant strictly to be used only in the development environment. Both Kafka and Raft are crash-fault tolerant and cannot work if there any malicious node in the network. Whereas HoneyBadgerBFT is a Byzantine fault-tolerant (BFT) protocol, and it can also handle network attacks. 
+
+As Hyperledger is modular by design, we can plug a new consensus in it. So we introduce HoneyBadgerBFT in Fabric as new consensus option.
+
+% In Fabric v1.4, ordering service have Solo, Kafka(deprecated now),  and Raft as options. Solo is single node orderer, to experiment with Hyperledger Fabric networks. It is not fault-tolerant, So, it is not advised to use Solo for any production use. On the other hand, Raft is crash fault-tolerant , but it does not prevent the system from byzantine failures or network failures. So, it cannot be used to reach an agreement in the presence of byzantine nodes and where the network is not stable.
+
+,
+
+% and we introduce it as a new consensus model in Fabric as Hyperledger Fabric supports pluggable consensus. We further discuss how we added a new consensus model, namely HoneyBadgerBFT, in Fabric v1.4 release.
+
+
+\section{Orderer}
+Every consensus implementation in Fabric orderer needs to implement the following important interface functions:
+\begin{itemize}
+\item Consenter interface:
+\begin{itemize}
+    \item HandleChain(ConsenterSupport, *cb.Metadata) (Chain, error) : This function creates and return a reference to a Chain.
+\end{itemize}
+\item Chain interface:
+\begin{itemize}
+    \item Order(env *cb.Envelope,configSeq uint64) (error) : This function is called by a chain to submit a normal transaction to order.
+\item Configure(config *cb.Envelope, configSeq uint64) (error) : This function is called by a chain to submit a configuration transaction to order. This is used to make configuration changes in the orderer nodes.
+\item Start() : This is used to start the Chain.
+\item Halt() : This is used to halt a running Chain.
+
+\end{itemize}
+    \end{itemize}
+\section{HoneyBadgerBFT in Hyperladger Fabric}
+We will now explain the primary step of our thesis, i.e., adding HoneyBadgerBFT support in ordering service as a consensus package of Fabric v1.4. To add support for a new ordering service in fabric, we need to implement interface functions provided in the consensus package. We added the support of consensus-type HoneyBadgerBFT, similar to Raft.
+
+
+We used Raft implementation as a base code and then changed it according to the needs of HoneyBadgerBFT. We implemented Consenter and Chain interface. Whenever \textit{ HandleChain} creates a new Chain instance, it also creates a new instance of \textit{HoneyBadgerBFT} node. Chain instance and HoneyBadgerBFT instance communicate with each other using channels provided by Golang. So, when any request to \textit{order} or \textit{config} comes to the Chain instance via Consenter, it transfers the request to HoneyBadgerBFT instance to do consensus on it. Upon completion of consensus by HoneyBadgerBFT instance, it returns results to Chain instance, which makes block according to configuration and delivers blocks to the peers. For communication, We used the communication layer provided by the Hyperledger Fabric, which uses gRPC\cite{grpc}. The implementation is available at :
+
+\href{https://github.com/yadavdeepak95/fabric/tree/hbbft-v1.4}{\textbf{https://github.com/yadavdeepak95/fabric/tree/hbbft-v1.4}}
+
+
+\section{Building Hyperledger Fabric} 
+To build the Hyperledger Fabric with HoneyBadgerBFT as a consensus option in ordering service you can use the standard process of building Fabric on our implementation. Step to build are available \href{https://hyperledger-fabric.readthedocs.io/en/release-1.4/dev-setup/build.html}{\textbf{here}}
+\section{Running Hyperledger Fabric with HoneyBadgerBFT}
+ 
+To run Hyperledger Fabric with HoneyBadgerBFT as an ordering service. All the configuration option are same just set the order type in \textit{configtx.yaml} to \textit{hbbft}. Our network setup with HoneyBadgerBFT  for a sample fabric application first-network is available at:
+
+\href{https://github.com/yadavdeepak95/fabric-samples/tree/hbbft-v1.4}{\textbf{https://github.com/yadavdeepak95/fabric-samples/tree/hbbft-v1.4}}
