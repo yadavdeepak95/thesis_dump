@@ -4,7 +4,7 @@ Thesis Dump
 # Fabric with HoneyBadgerBFT repo
 https://github.com/yadavdeepak95/fabric/tree/hbbft-v1.4
 
-# HoneyBadgerBFT implimentation repo
+# HoneyBadgerBFT implementation repo
 https://github.com/yadavdeepak95/HoneyBadgerBFT
 
 # Caliper for Benchmark
